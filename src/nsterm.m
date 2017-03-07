@@ -2621,8 +2621,14 @@ ns_clear_frame (struct frame *f)
   if ([FRAME_NS_VIEW (f) canDraw])
     {
   ns_focus (f, &r, 1);
-  [ns_lookup_indexed_color (NS_FACE_BACKGROUND (FRAME_DEFAULT_FACE (f)), f) set];
+
+  NSColor *nsColor = [NSColor colorWithCalibratedRed:0.0 green: 0.0  blue: 0.0  alpha:0.0];
+  [nsColor set];
   NSRectFill (r);
+  NSColor *nsColor2 = [NSColor colorWithCalibratedRed:0.0 green: 0.0  blue: 0.0  alpha:0.5];
+  [nsColor2 set];
+  NSRectFill (r);
+
   ns_unfocus (f);
     }
 #ifdef NS_IMPL_COCOA
@@ -2665,8 +2671,12 @@ ns_clear_frame_area (struct frame *f, int x, int y, int width, int height)
 
   r = NSIntersectionRect (r, [view frame]);
   ns_focus (f, &r, 1);
-  [ns_lookup_indexed_color (NS_FACE_BACKGROUND (face), f) set];
 
+  NSColor *nsColor = [NSColor colorWithCalibratedRed:0.0 green: 0.0  blue: 0.0  alpha:0.0];
+  [nsColor set];
+  NSRectFill (r);
+  NSColor *nsColor2 = [NSColor colorWithCalibratedRed:0.0 green: 0.0  blue: 0.0  alpha:0.5];
+  [nsColor2 set];
   NSRectFill (r);
 
   ns_unfocus (f);
@@ -4130,6 +4140,9 @@ ns_send_appdefined (int value)
 
 
       NSWindow *win = [NSApp mainWindow];
+      [win setBackgroundColor:[NSColor clearColor]];
+      [win setOpaque:NO];
+
       if (win == nil)
       {
 	// if application hidden, try to get the first of all windows 
